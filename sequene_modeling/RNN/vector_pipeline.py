@@ -13,14 +13,14 @@ class Vocabulary:
         #Special tokens
         self.PAD_TOKEN = '<PAD>'
         self.UNK_TOKEN = '<UNK>'
-        # self.SOS_TOKEN = '<SOS>'
-        # self.EOS_TOKEN = '<EOS>'
+        self.SOS_TOKEN = '<SOS>'
+        self.EOS_TOKEN = '<EOS>'
         
         self.PAD_ID = 0
         self.UNK_ID = 1
-        # self.SOS_ID = 2
-        # self.EOS_ID = 3
-    
+        self.SOS_ID = 2
+        self.EOS_ID = 3
+
     def build_vocab(self, sentences, min_freq = 1):
         
         #count word frequencies
@@ -45,8 +45,20 @@ class Vocabulary:
         print(f"Vocabulary built with {len(self.w2id)} tokens.")
         
     
-    
+    def encode(self, sentence, add_sos = False, add_eos = False):
+        
+        ids = []
+        
+        if add_sos:
+            ids.append(self.SOS_ID)
+        
+        for word in sentence:
+            ids.append(self.w2id.get(word,self.UNK_ID))
 
+        if add_eos:
+            ids.append(self.EOS_ID)
+
+        return ids
 
 if __name__ == "__main__":
     sentences = [

@@ -4,6 +4,7 @@ import numpy as np
 from collections import Counter
 
 class Vocabulary:
+    
     def __init__(self):
         self.w2id = {}
         self.id2w = {}
@@ -44,7 +45,6 @@ class Vocabulary:
         
         print(f"Vocabulary built with {len(self.w2id)} tokens.")
         
-    
     def encode(self, sentence, add_sos = False, add_eos = False):
         
         ids = []
@@ -60,6 +60,18 @@ class Vocabulary:
 
         return ids
 
+    def decode(self, ids, remove_special = True):
+        
+        words = [self.id2w.get(idx, self.UNK_TOKEN) for idx in ids]
+        
+        if remove_special:
+            specials = {self.PAD_TOKEN, self.UNK_TOKEN, self.SOS_TOKEN, self.EOS_TOKEN}
+            words = [word for word in words if word not in specials]
+        
+        return words
+        
+        
+
 if __name__ == "__main__":
     sentences = [
         ["hello", "world"],
@@ -69,6 +81,14 @@ if __name__ == "__main__":
     
     vocab = Vocabulary()
     vocab.build_vocab(sentences, min_freq=1)
-    
     print(vocab.w2id)
     print(vocab.id2w)
+    ids=[]
+    for sentence in sentences:
+        ids.append(vocab.encode(sentence))
+        print(ids)
+    
+    for id in ids:
+        words = vocab.decode(id)
+        print(words)
+    

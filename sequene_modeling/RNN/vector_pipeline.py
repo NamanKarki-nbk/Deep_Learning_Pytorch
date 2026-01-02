@@ -69,8 +69,24 @@ class Vocabulary:
             words = [word for word in words if word not in specials]
         
         return words
-        
-        
+    
+    def __len__(self):
+        return len(self.w2id)
+    
+def pad_sequences(sequences, pad_id = 0, max_len = None):
+    
+    if max_len is None:
+        max_len = max(len(seq) for seq in sequences)
+    
+    padded = []
+    for seq in sequences:
+        if len(seq) < max_len:
+            seq = seq + [pad_id] * (max_len - len(seq))
+        else:
+            seq = seq[:max_len]
+        padded.append(seq)
+    
+    return torch.LongTensor(padded)
 
 if __name__ == "__main__":
     sentences = [

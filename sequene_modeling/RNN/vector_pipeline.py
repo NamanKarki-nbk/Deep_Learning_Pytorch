@@ -35,7 +35,7 @@ class Vocabulary:
         # self.w2id[self.EOS_TOKEN] = self.EOS_ID
         
         #add words that meet min frequency
-        idx = 3
+        idx = 4
         for word, freq in self.word_count.most_common():
             if freq >= min_freq:
                 self.w2id[word] = idx
